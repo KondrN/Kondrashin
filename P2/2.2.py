@@ -1,32 +1,27 @@
-# Signal Generation
-# matplotlib inline
-
-import numpy as np
 import matplotlib.pyplot as plt
+import  numpy as np
+x = np.linspace(-10, 10, 1000)
+target_noise_db = 10
 
-t = np.linspace(1, 100, 1000)
-x_volts = 10*np.sin(t/(2*np.pi))
-plt.subplot(3,1,1)
+# Convert to linear Watt units
+target_noise_watts = 1
 
-
-# Set a target SNR
-target_snr_db = 20
-# Calculate signal power and convert to dB
-sig_avg_watts = np.mean(x_volts)
-sig_avg_db = 10 * np.log10(sig_avg_watts)
-# Calculate noise according to [2] then convert to watts
-noise_avg_db = sig_avg_db - target_snr_db
-noise_avg_watts = 1 ** (noise_avg_db / 10)
-# Generate an sample of white noise
+# Generate noise samples
 mean_noise = 0
-noise_volts = np.random.normal(mean_noise, np.sqrt(noise_avg_watts), len(x_volts))
-# Noise up the original signal
-y_volts = x_volts + noise_volts
+y= np.sin(x)
+noise_volts = np.random.normal(mean_noise, 1/10, len(y))
+z=y+noise_volts
+plt.figure(figsize=(10, 5))
+plt.scatter(x, z)
 
-# Plot signal with noise
-plt.subplot(2,1,1)
-plt.plot(t, y_volts)
-plt.title('Signal with noise')
-plt.ylabel('Voltage (V)')
-plt.xlabel('Time (s)')
+plt.scatter(x, z,s=300,marker='s',c='violet',lw=2,edgecolor='black',hatch='**')
+
+plt.title(label='$sin(x)$ with random noise', fontsize=20 )
+plt.xlabel('x range', fontsize=18)
+plt.ylabel('y range', fontsize=18)
+plt.tick_params(labelsize=16)
+
+plt.xticks(ticks=np.arange(-10, 11, 2) )
+plt.yticks(ticks=np.arange(-1.5, 2,0.5),labels=['можно', 'написать', 'все', 'что', 'хочется', 'вообще', 'все ='][::-1])
+plt.plot(x, z)
 plt.show()
