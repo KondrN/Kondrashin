@@ -1,0 +1,5 @@
+print("Введите первое число")
+one_num= int(input())
+print("Введите второе число")
+two_num= int(input())
+print("Cумма", one_num+two_num)
